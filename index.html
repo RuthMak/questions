@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Movie Quiz App</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  >
+  <style>
+    .wrong-answer {
+      border: 2px solid red;
+      border-radius: 5px;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body class="bg-light">
+
+  <div class="container mt-5">
+    <h2 class="text-center mb-4">🎬 Classic Movie Quiz</h2>
+    <form id="quizForm">
+
+      <div class="mb-4" id="q1-container">
+        <h5>1. Who directed the movie *Titanic*?</h5>
+        <div class="btn-group-vertical w-100" role="group">
+          <input type="radio" class="btn-check" name="q1" id="q1a" value="wrong" autocomplete="off">
+          <label class="btn btn-outline-primary" for="q1a">Billy Zane</label>
+
+          <input type="radio" class="btn-check" name="q1" id="q1b" value="correct" autocomplete="off">
+          <label class="btn btn-outline-primary" for="q1b">Christopher Nolan</label>
+
+          <input type="radio" class="btn-check" name="q1" id="q1c" value="wrong" autocomplete="off">
+          <label class="btn btn-outline-primary" for="q1c">James Cameron</label>
+        </div>
+      </div>
+
+      <div class="mb-4" id="q2-container">
+        <h5>2. Which of the following actors were in *Minecraft*? (Select all that apply)</h5>
+        <div class="btn-group-vertical w-100" role="group">
+          <input type="checkbox" class="btn-check" id="q2a" value="correct" autocomplete="off">
+          <label class="btn btn-outline-success" for="q2a">Jason Momoa</label>
+
+          <input type="checkbox" class="btn-check" id="q2b" value="wrong" autocomplete="off">
+          <label class="btn btn-outline-success" for="q2b">Emma Myers</label>
+
+          <input type="checkbox" class="btn-check" id="q2c" value="correct" autocomplete="off">
+          <label class="btn btn-outline-success" for="q2c">Jack Black</label>
+
+          <input type="checkbox" class="btn-check" id="q2d" value="correct" autocomplete="off">
+          <label class="btn btn-outline-success" for="q2d">Laurence Fishburne</label>
+        </div>
+      </div>
+
+      <div class="mb-4" id="q3-container">
+        <h5>3. What year was *Happy* released?</h5>
+        <div class="btn-group w-100" role="group">
+          <input type="radio" class="btn-check" name="q3" id="q3a" value="correct" autocomplete="off">
+          <label class="btn btn-outline-warning" for="q3a">2013</label>
+
+          <input type="radio" class="btn-check" name="q3" id="q3b" value="wrong" autocomplete="off">
+          <label class="btn btn-outline-warning" for="q3b">2014</label>
+
+          <input type="radio" class="btn-check" name="q3" id="q3c" value="wrong" autocomplete="off">
+          <label class="btn btn-outline-warning" for="q3c">2015</label>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <button type="button" class="btn btn-lg btn-primary" onclick="checkAnswers()">Submit Quiz</button>
+        <div id="resultMsg" class="mt-3 fw-bold"></div>
+      </div>
+
+    </form>
+  </div>
+
+  <script>
+    function checkAnswers() {
+      document.getElementById("resultMsg").textContent = "";
+      ["q1", "q2", "q3"].forEach(id => {
+        document.getElementById(id + "-container").classList.remove("wrong-answer");
+      });
+
+      let isCorrect = true;
+
+      const q1 = document.querySelector('input[name="q1"]:checked');
+      if (!q1 || q1.value !== "correct") {
+        document.getElementById("q1-container").classList.add("wrong-answer");
+        isCorrect = false;
+      }
+
+      const q2answers = [
+        { id: "q2a", shouldBeChecked: true },
+        { id: "q2b", shouldBeChecked: false },
+        { id: "q2c", shouldBeChecked: true },
+        { id: "q2d", shouldBeChecked: true },
+      ];
+      let q2isCorrect = true;
+      q2answers.forEach(ans => {
+        const checkbox = document.getElementById(ans.id);
+        if (checkbox.checked !== ans.shouldBeChecked) {
+          q2isCorrect = false;
+        }
+      });
+      if (!q2isCorrect) {
+        document.getElementById("q2-container").classList.add("wrong-answer");
+        isCorrect = false;
+      }
+
+      const q3 = document.querySelector('input[name="q3"]:checked');
+      if (!q3 || q3.value !== "correct") {
+        document.getElementById("q3-container").classList.add("wrong-answer");
+        isCorrect = false;
+      }
+
+      const resultMsg = document.getElementById("resultMsg");
+      if (isCorrect) {
+        resultMsg.textContent = "🎉 You passed!";
+        resultMsg.className = "mt-3 fw-bold text-success";
+      } else {
+        resultMsg.textContent = "❌ One or more answers are incorrect. Try again!";
+        resultMsg.className = "mt-3 fw-bold text-danger";
+      }
+    }
+  </script>
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  ></script>
+</body>
+</html>
